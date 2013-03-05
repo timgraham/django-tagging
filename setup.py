@@ -8,7 +8,6 @@ from distutils.core import setup
 import tagging
 
 
-
 def fullsplit(path, result=None):
     """
     Split a pathname into components (the opposite of os.path.join) in a
@@ -49,22 +48,28 @@ for dirpath, dirnames, filenames in os.walk(tagging_dir):
     elif filenames:
         data_files.append([dirpath, [os.path.join(dirpath, f) for f in filenames]])
 
-
 setup(
     name = 'django-tagging',
     version = tagging.get_version(),
     description = 'Generic tagging application for Django',
     author = 'Jonathan Buchanan',
     author_email = 'jonathan.buchanan@gmail.com',
-    url = 'http://code.google.com/p/django-tagging/',
+    url = 'https://github.com/jefftriplett/django-tagging',
     packages = packages,
     data_files = data_files,
-    classifiers = ['Development Status :: 4 - Beta',
-                   'Environment :: Web Environment',
-                   'Framework :: Django',
-                   'Intended Audience :: Developers',
-                   'License :: OSI Approved :: BSD License',
-                   'Operating System :: OS Independent',
-                   'Programming Language :: Python',
-                   'Topic :: Utilities'],
+    classifiers = [
+        'Development Status :: 4 - Beta',
+        'Environment :: Web Environment',
+        'Framework :: Django',
+        'Intended Audience :: Developers',
+        'License :: OSI Approved :: BSD License',
+        'Operating System :: OS Independent',
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 2.6',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.3',
+        'Topic :: Utilities',
+    ],
 )
