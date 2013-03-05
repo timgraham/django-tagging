@@ -6,7 +6,7 @@ import math
 import types
 
 from django.db.models.query import QuerySet
-from django.utils.encoding import force_unicode
+from django.utils.encoding import force_text
 from django.utils.translation import ugettext as _
 
 # Python 2.3 compatibility
@@ -26,7 +26,7 @@ def parse_tag_input(input):
     if not input:
         return []
 
-    input = force_unicode(input)
+    input = force_text(input)
 
     # Special case - if there are no commas or double quotes in the
     # input, we don't *do* a recall... I mean, we know we only need to
@@ -179,7 +179,7 @@ def get_tag_list(tags):
                 contents.add('int')
         if len(contents) == 1:
             if 'string' in contents:
-                return Tag.objects.filter(name__in=[force_unicode(tag) \
+                return Tag.objects.filter(name__in=[force_text(tag) \
                                                     for tag in tags])
             elif 'tag' in contents:
                 return tags
