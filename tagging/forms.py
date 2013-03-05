@@ -4,9 +4,10 @@ Tagging components for Django's form library.
 from django import forms
 from django.utils.translation import ugettext as _
 
-from tagging import settings
-from tagging.models import Tag
-from tagging.utils import parse_tag_input
+from . import settings
+from .models import Tag
+from .utils import parse_tag_input
+
 
 class TagAdminForm(forms.ModelForm):
     class Meta:
@@ -22,6 +23,7 @@ class TagAdminForm(forms.ModelForm):
                 _('A tag may be no more than %s characters long.') %
                     settings.MAX_TAG_LENGTH)
         return value
+
 
 class TagField(forms.CharField):
     """

@@ -1,23 +1,19 @@
 """
 Models and managers for generic tagging.
 """
-# Python 2.3 compatibility
-try:
-    set
-except NameError:
-    from sets import Set as set
-
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 from django.db import connection, models
-from django.db.models.query import QuerySet
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
-from tagging import settings
-from tagging.utils import calculate_cloud, get_tag_list, get_queryset_and_model, parse_tag_input
-from tagging.utils import LOGARITHMIC
+from . import settings
+from .utils import (calculate_cloud, get_tag_list, get_queryset_and_model,
+    parse_tag_input, LOGARITHMIC)
+
 
 qn = connection.ops.quote_name
+
 
 ############
 # Managers #
@@ -449,10 +445,12 @@ class TaggedItemManager(models.Manager):
         else:
             return []
 
+
 ##########
 # Models #
 ##########
 
+@python_2_unicode_compatible
 class Tag(models.Model):
     """
     A tag.
@@ -466,17 +464,19 @@ class Tag(models.Model):
         verbose_name = _('tag')
         verbose_name_plural = _('tags')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
+
+@python_2_unicode_compatible
 class TaggedItem(models.Model):
     """
     Holds the relationship between a tag and the item being tagged.
     """
-    tag          = models.ForeignKey(Tag, verbose_name=_('tag'), related_name='items')
+    tag = models.ForeignKey(Tag, verbose_name=_('tag'), related_name='items')
     content_type = models.ForeignKey(ContentType, verbose_name=_('content type'))
-    object_id    = models.PositiveIntegerField(_('object id'), db_index=True)
-    object       = generic.GenericForeignKey('content_type', 'object_id')
+    object_id = models.PositiveIntegerField(_('object id'), db_index=True)
+    object = generic.GenericForeignKey('content_type', 'object_id')
 
     objects = TaggedItemManager()
 
@@ -486,5 +486,5 @@ class TaggedItem(models.Model):
         verbose_name = _('tagged item')
         verbose_name_plural = _('tagged items')
 
-    def __unicode__(self):
-        return u'%s [%s]' % (self.object, self.tag)
+    def __str__(self):
+        return '%s [%s]' % (self.object, self.tag)
