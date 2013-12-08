@@ -10,7 +10,7 @@ from django.test import TestCase
 from tagging import settings
 from tagging.forms import TagField
 from tagging.models import Tag, TaggedItem
-from tagging.tests.models import Article, Link, Perch, Parrot, FormTest, FormTestNull
+from tagging.tests.models import Article, Link, Perch, Parrot, FormTest
 from tagging.utils import calculate_cloud, edit_string_for_tags, get_tag_list, get_tag, parse_tag_input
 from tagging.utils import LINEAR
 
