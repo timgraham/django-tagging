@@ -54,7 +54,7 @@ setup(
     description = 'Generic tagging application for Django',
     author = 'Jonathan Buchanan',
     author_email = 'jonathan.buchanan@gmail.com',
-    url = 'https://code.google.com/p/django-tagging/'
+    url = 'https://code.google.com/p/django-tagging/',
     packages = packages,
     data_files = data_files,
     classifiers = [
