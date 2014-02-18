@@ -2,8 +2,8 @@
 Django Tagging Changelog
 ========================
 
-Version 0.5.0, 5th March 2013:
-------------------------------
+Version 0.3.2, 18th February 2014:
+----------------------------------
 
 * Added support for Django 1.4 and 1.5
 * Added support for Python 2.6 to 3.3
