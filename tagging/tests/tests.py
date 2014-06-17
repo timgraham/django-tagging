@@ -6,6 +6,7 @@ import os
 from django import forms
 from django.db.models import Q
 from django.test import TestCase
+from django.utils import six
 
 from tagging import settings
 from tagging.forms import TagField
@@ -333,7 +334,7 @@ class TestBasicTagging(TestCase):
         Tag.objects.update_tags(self.dead_parrot, u'föo')
         items = TaggedItem.objects.all()
         self.assertEqual(len(items), 1)
-        self.assertEqual(unicode(items[0]), u"dëad [föo]")
+        self.assertEqual(six.text_type(items[0]), u"dëad [föo]")
 
     def test_update_tags_with_none(self):
         # start off in a known, mildly interesting state
