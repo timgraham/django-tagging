@@ -12,6 +12,7 @@ from .utils import parse_tag_input
 class TagAdminForm(forms.ModelForm):
     class Meta:
         model = Tag
+        fields = ('name',)
 
     def clean_name(self):
         value = self.cleaned_data['name']
@@ -21,7 +22,7 @@ class TagAdminForm(forms.ModelForm):
         elif len(tag_names[0]) > settings.MAX_TAG_LENGTH:
             raise forms.ValidationError(
                 _('A tag may be no more than %s characters long.') %
-                    settings.MAX_TAG_LENGTH)
+                settings.MAX_TAG_LENGTH)
         return value
 
 
@@ -38,5 +39,5 @@ class TagField(forms.CharField):
             if len(tag_name) > settings.MAX_TAG_LENGTH:
                 raise forms.ValidationError(
                     _('Each tag may be no more than %s characters long.') %
-                        settings.MAX_TAG_LENGTH)
+                    settings.MAX_TAG_LENGTH)
         return value
