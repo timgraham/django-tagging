@@ -2,6 +2,11 @@
 Django Tagging Changelog
 ========================
 
+Version 0.3.3, 15th October 2014:
+----------------------------------
+
+* Added support for Django 1.7
+
 Version 0.3.2, 18th February 2014:
 ----------------------------------
 
