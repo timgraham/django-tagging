@@ -2,8 +2,13 @@
 Django Tagging Changelog
 ========================
 
+Version 0.3.4, 7th November 2014:
+---------------------------------
+
+* Fix unicode errors in admin
+
 Version 0.3.3, 15th October 2014:
-----------------------------------
+---------------------------------
 
 * Added support for Django 1.7
 
