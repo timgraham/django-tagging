@@ -6,12 +6,14 @@ import os
 from django import forms
 from django.db.models import Q
 from django.test import TestCase
+from django.utils import six
 
 from tagging import settings
 from tagging.forms import TagField
 from tagging.models import Tag, TaggedItem
-from tagging.tests.models import Article, Link, Perch, Parrot, FormTest
-from tagging.utils import calculate_cloud, edit_string_for_tags, get_tag_list, get_tag, parse_tag_input
+from tagging.tests.models import Article, Link, Perch, Parrot, FormTest, FormTestNull
+from tagging.utils import (calculate_cloud, edit_string_for_tags, get_tag_list,
+                           get_tag, parse_tag_input)
 from tagging.utils import LINEAR
 
 
@@ -325,6 +327,14 @@ class TestBasicTagging(TestCase):
         tags = Tag.objects.get_for_object(self.dead_parrot)
         self.assertEqual(len(tags), 1)
         self.assertEqual(tags[0].name, '你好')
+
+    def test_unicode_tagged_object(self):
+        self.dead_parrot.state = u"dëad"
+        self.dead_parrot.save()
+        Tag.objects.update_tags(self.dead_parrot, u'föo')
+        items = TaggedItem.objects.all()
+        self.assertEqual(len(items), 1)
+        self.assertEqual(six.text_type(items[0]), u"dëad [föo]")
 
     def test_update_tags_with_none(self):
         # start off in a known, mildly interesting state
