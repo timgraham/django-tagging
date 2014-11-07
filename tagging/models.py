@@ -1,15 +1,20 @@
 """
 Models and managers for generic tagging.
 """
+from django.db import models
+from django.db import connection
+from django.utils.encoding import smart_text
+from django.utils.encoding import python_2_unicode_compatible
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
-from django.db import connection, models
-from django.utils.encoding import python_2_unicode_compatible, smart_text
 from django.utils.translation import ugettext_lazy as _
 
 from . import settings
-from .utils import (calculate_cloud, get_tag_list, get_queryset_and_model,
-    parse_tag_input, LOGARITHMIC)
+from .utils import LOGARITHMIC
+from .utils import get_tag_list
+from .utils import calculate_cloud
+from .utils import parse_tag_input
+from .utils import get_queryset_and_model
 
 
 qn = connection.ops.quote_name

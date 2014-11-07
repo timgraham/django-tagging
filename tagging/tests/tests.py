@@ -4,18 +4,25 @@ from __future__ import unicode_literals
 import os
 
 from django import forms
+from django.utils import six
 from django.db.models import Q
 from django.test import TestCase
-from django.utils import six
 
 from tagging import settings
 from tagging.forms import TagField
 from tagging.models import Tag, TaggedItem
-from tagging.tests.models import Article, Link, Perch, Parrot, FormTest, FormTestNull
-from tagging.utils import (calculate_cloud, edit_string_for_tags, get_tag_list,
-                           get_tag, parse_tag_input)
+from tagging.tests.models import Article
+from tagging.tests.models import Link
+from tagging.tests.models import Perch
+from tagging.tests.models import Parrot
+from tagging.tests.models import FormTest
+from tagging.tests.models import FormTestNull
 from tagging.utils import LINEAR
-
+from tagging.utils import get_tag
+from tagging.utils import get_tag_list
+from tagging.utils import calculate_cloud
+from tagging.utils import parse_tag_input
+from tagging.utils import edit_string_for_tags
 
 #############
 # Utilities #
