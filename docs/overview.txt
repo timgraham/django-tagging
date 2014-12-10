@@ -206,7 +206,7 @@ A manager for retrieving tags used by a particular model.
 
 Defines the following methods:
 
-* ``get_query_set()`` -- as this method is redefined, any ``QuerySets``
+* ``get_queryset()`` -- as this method is redefined, any ``QuerySets``
   created by this model will be initially restricted to contain the
   distinct tags used by all the model's instances.
 
