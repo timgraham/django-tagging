@@ -19,7 +19,7 @@ Installing an official release
 ------------------------------
 
 Official releases are made available from
-http://code.google.com/p/django-tagging/
+https://pypi.python.org/pypi/django-tagging/
 
 Source distribution
 ~~~~~~~~~~~~~~~~~~~
@@ -45,11 +45,10 @@ Installing the development version
 
 Alternatively, if you'd like to update Django Tagging occasionally to pick
 up the latest bug fixes and enhancements before they make it into an
-official release, perform a `Subversion`_ checkout instead. The following
-command will check the application's development branch out to an
-``tagging-trunk`` directory::
+official release, clone the git repository instead. The following
+command will clone the development branch to ``django-tagging`` directory::
 
-   svn checkout http://django-tagging.googlecode.com/svn/trunk/ tagging-trunk
+   git clone git@github.com:Fantomas42/django-tagging.git
 
 Add the resulting folder to your `PYTHONPATH`_ or symlink (`junction`_,
 if you're on Windows) the ``tagging`` directory inside it into a
@@ -61,25 +60,22 @@ opening a Python interpreter and entering the following commands::
 
    >>> import tagging
    >>> tagging.VERSION
-   (0, 3, 'pre')
+   (0, 3, 4, 'final', 0)
 
 When you want to update your copy of the Django Tagging source code, run
-the command ``svn update`` from within the ``tagging-trunk`` directory.
+the command ``git pull`` from within the ``django-tagging`` directory.
 
 .. caution::
 
    The development version may contain bugs which are not present in the
    release version and introduce backwards-incompatible changes.
 
-   If you're tracking trunk, keep an eye on the `CHANGELOG`_ and the
-   `backwards-incompatible changes wiki page`_ before you update your
-   copy of the source code.
+   If you're tracking git, keep an eye on the `CHANGELOG`_
+   before you update your copy of the source code.
 
-.. _`Subversion`: http://subversion.tigris.org
 .. _`PYTHONPATH`: http://www.python.org/doc/2.5.2/tut/node8.html#SECTION008120000000000000000
 .. _`junction`: http://www.microsoft.com/technet/sysinternals/FileAndDisk/Junction.mspx
-.. _`CHANGELOG`: http://django-tagging.googlecode.com/svn/trunk/CHANGELOG.txt
-.. _`backwards-incompatible changes wiki page`: http://code.google.com/p/django-tagging/wiki/BackwardsIncompatibleChanges
+.. _`CHANGELOG`: https://github.com/Fantomas42/django-tagging/blob/develop/CHANGELOG.txt
 
 Using Django Tagging in your applications
 -----------------------------------------
@@ -206,7 +202,7 @@ A manager for retrieving tags used by a particular model.
 
 Defines the following methods:
 
-* ``get_query_set()`` -- as this method is redefined, any ``QuerySets``
+* ``get_queryset()`` -- as this method is redefined, any ``QuerySets``
   created by this model will be initially restricted to contain the
   distinct tags used by all the model's instances.
 
