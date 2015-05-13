@@ -59,7 +59,8 @@ class TagField(CharField):
                 self._set_instance_tag_cache(instance, '')
             else:
                 self._set_instance_tag_cache(
-                    instance, edit_string_for_tags(Tag.objects.get_for_object(instance)))
+                    instance, edit_string_for_tags(
+                        Tag.objects.get_for_object(instance)))
         return self._get_instance_tag_cache(instance)
 
     def __set__(self, instance, value):
@@ -67,7 +68,8 @@ class TagField(CharField):
         Set an object's tags.
         """
         if instance is None:
-            raise AttributeError(_('%s can only be set on instances.') % self.name)
+            raise AttributeError(
+                _('%s can only be set on instances.') % self.name)
         if settings.FORCE_LOWERCASE_TAGS and value is not None:
             value = value.lower()
         self._set_instance_tag_cache(instance, value)

@@ -1,3 +1,6 @@
+"""
+Templatetags for tagging
+"""
 from django.db.models import get_model
 from django.template import Library, Node, TemplateSyntaxError, Variable
 from django.utils.translation import ugettext as _
@@ -18,8 +21,11 @@ class TagsForModelNode(Node):
     def render(self, context):
         model = get_model(*self.model.split('.'))
         if model is None:
-            raise TemplateSyntaxError(_('tags_for_model tag was given an invalid model: %s') % self.model)
-        context[self.context_var] = Tag.objects.usage_for_model(model, counts=self.counts)
+            raise TemplateSyntaxError(
+                _('tags_for_model tag was given an invalid model: %s') %
+                self.model)
+        context[self.context_var] = Tag.objects.usage_for_model(
+            model, counts=self.counts)
         return ''
 
 
@@ -32,9 +38,11 @@ class TagCloudForModelNode(Node):
     def render(self, context):
         model = get_model(*self.model.split('.'))
         if model is None:
-            raise TemplateSyntaxError(_('tag_cloud_for_model tag was given an invalid model: %s') % self.model)
-        context[self.context_var] = \
-            Tag.objects.cloud_for_model(model, **self.kwargs)
+            raise TemplateSyntaxError(
+                _('tag_cloud_for_model tag was given an invalid model: %s') %
+                self.model)
+        context[self.context_var] = Tag.objects.cloud_for_model(
+            model, **self.kwargs)
         return ''
 
 
@@ -58,9 +66,11 @@ class TaggedObjectsNode(Node):
     def render(self, context):
         model = get_model(*self.model.split('.'))
         if model is None:
-            raise TemplateSyntaxError(_('tagged_objects tag was given an invalid model: %s') % self.model)
-        context[self.context_var] = \
-            TaggedItem.objects.get_by_model(model, self.tag.resolve(context))
+            raise TemplateSyntaxError(
+                _('tagged_objects tag was given an invalid model: %s') %
+                self.model)
+        context[self.context_var] = TaggedItem.objects.get_by_model(
+            model, self.tag.resolve(context))
         return ''
 
 
