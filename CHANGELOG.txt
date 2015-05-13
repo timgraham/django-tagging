@@ -2,6 +2,14 @@
 Django Tagging Changelog
 ========================
 
+Version 0.3.5, 13th May 2015:
+-----------------------------
+
+* Added support for Django 1.8
+* Using migrations to fix syncdb
+* Rename get_query_set to get_queryset
+* Import GenericForeignKey from the new location
+
 Version 0.3.4, 7th November 2014:
 ---------------------------------
 
