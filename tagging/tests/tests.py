@@ -355,12 +355,12 @@ class TestBasicTagging(TestCase):
         self.assertEqual(tags[0].name, '你好')
 
     def test_unicode_tagged_object(self):
-        self.dead_parrot.state = u"dëad"
+        self.dead_parrot.state = "dëad"
         self.dead_parrot.save()
-        Tag.objects.update_tags(self.dead_parrot, u'föo')
+        Tag.objects.update_tags(self.dead_parrot, 'föo')
         items = TaggedItem.objects.all()
         self.assertEqual(len(items), 1)
-        self.assertEqual(six.text_type(items[0]), u"dëad [föo]")
+        self.assertEqual(six.text_type(items[0]), "dëad [föo]")
 
     def test_update_tags_with_none(self):
         # start off in a known, mildly interesting state
