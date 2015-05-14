@@ -7,10 +7,7 @@ from django.utils.encoding import smart_text
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
-try:
-    from django.contrib.contenttypes.fields import GenericForeignKey
-except ImportError:  # Django 1.8
-    from django.contrib.contenttypes.generic import GenericForeignKey
+from django.contrib.contenttypes.fields import GenericForeignKey
 
 from . import settings
 from .utils import LOGARITHMIC
@@ -174,21 +171,9 @@ class TagManager(models.Manager):
         greater than or equal to ``min_count`` will be returned.
         Passing a value for ``min_count`` implies ``counts=True``.
         """
-
-        if getattr(queryset.query, 'get_compiler', None):
-            compiler = queryset.query.get_compiler(using='default')
-            if getattr(compiler, 'compile', None):
-                # Django 1.7+
-                where, params = compiler.compile(queryset.query.where)
-            else:
-                # Django 1.2+
-                where, params = queryset.query.where.as_sql(
-                    compiler.quote_name_unless_alias, compiler.connection)
-            extra_joins = ' '.join(compiler.get_from_clause()[0][1:])
-        else:
-            # Django pre-1.2
-            extra_joins = ' '.join(queryset.query.get_from_clause()[0][1:])
-            where, params = queryset.query.where.as_sql()
+        compiler = queryset.query.get_compiler(using='default')
+        where, params = compiler.compile(queryset.query.where)
+        extra_joins = ' '.join(compiler.get_from_clause()[0][1:])
 
         if where:
             extra_criteria = 'AND %s' % where

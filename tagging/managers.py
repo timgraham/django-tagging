@@ -2,10 +2,8 @@
 Custom managers for Django models registered with the tagging
 application.
 """
-
-import django
-from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from django.contrib.contenttypes.models import ContentType
 
 from .models import Tag, TaggedItem
 
@@ -18,10 +16,6 @@ class ModelTagManager(models.Manager):
         ctype = ContentType.objects.get_for_model(self.model)
         return Tag.objects.filter(
             items__content_type__pk=ctype.pk).distinct()
-
-    # TODO: drop this
-    if django.VERSION < (1, 6):
-        get_query_set = get_queryset
 
     def cloud(self, *args, **kwargs):
         return Tag.objects.cloud_for_model(self.model, *args, **kwargs)

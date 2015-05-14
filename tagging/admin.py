@@ -1,3 +1,6 @@
+"""
+Admin components for tagging.
+"""
 from django.contrib import admin
 
 from .models import Tag, TaggedItem

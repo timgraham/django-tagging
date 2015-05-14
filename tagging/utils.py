@@ -4,8 +4,8 @@ calculation.
 """
 import math
 
-from django.db.models.query import QuerySet
 from django.utils import six
+from django.db.models.query import QuerySet
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext as _
 
