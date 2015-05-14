@@ -6,10 +6,11 @@ Django Tagging
 
 This is a generic tagging application for Django projects
 
-For installation instructions, see the file "INSTALL.txt" in this
-directory; for instructions on how to use this application, and on
-what it provides, see the file "overview.txt" in the "docs/"
-directory.
+http://django-tagging.readthedocs.org/
+
+Note that this application requires Python 2.7 or later, and Django
+1.7 or later. You can obtain Python from http://www.python.org/ and
+Django from http://www.djangoproject.com/.
 
 .. |travis-develop| image:: https://travis-ci.org/Fantomas42/django-tagging.png?branch=develop
    :alt: Build Status - develop branch
