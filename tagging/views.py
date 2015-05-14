@@ -10,7 +10,7 @@ from .utils import get_tag
 
 
 def tagged_object_list(request, queryset_or_model=None, tag=None,
-        related_tags=False, related_tag_counts=True, **kwargs):
+                       related_tags=False, related_tag_counts=True, **kwargs):
     """
     A thin wrapper around
     ``django.views.generic.list_detail.object_list`` which creates a
@@ -31,13 +31,16 @@ def tagged_object_list(request, queryset_or_model=None, tag=None,
         try:
             queryset_or_model = kwargs.pop('queryset_or_model')
         except KeyError:
-            raise AttributeError(_('tagged_object_list must be called with a queryset or a model.'))
+            raise AttributeError(
+                _('tagged_object_list must be called '
+                  'with a queryset or a model.'))
 
     if tag is None:
         try:
             tag = kwargs.pop('tag')
         except KeyError:
-            raise AttributeError(_('tagged_object_list must be called with a tag.'))
+            raise AttributeError(
+                _('tagged_object_list must be called with a tag.'))
 
     tag_instance = get_tag(tag)
     if tag_instance is None:
