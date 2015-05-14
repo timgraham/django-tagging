@@ -2,75 +2,42 @@
 Based entirely on Django's own ``setup.py``.
 """
 from setuptools import setup
-
-import os
-from distutils.command.install import INSTALL_SCHEMES
+from setuptools import find_packages
 
 import tagging
 
-
-def fullsplit(path, result=None):
-    """
-    Split a pathname into components (the opposite of os.path.join) in a
-    platform-neutral way.
-    """
-    if result is None:
-        result = []
-    head, tail = os.path.split(path)
-    if head == '':
-        return [tail] + result
-    if head == path:
-        return result
-    return fullsplit(head, [tail] + result)
-
-# Tell distutils to put the data_files in platform-specific installation
-# locations. See here for an explanation:
-# http://groups.google.com/group/comp.lang.python/browse_thread/thread/35ec7b2fed36eaec/2105ee4d9e8042cb
-for scheme in INSTALL_SCHEMES.values():
-    scheme['data'] = scheme['purelib']
-
-# Compile the list of packages available, because distutils doesn't have
-# an easy way to do this.
-packages, data_files = [], []
-root_dir = os.path.dirname(__file__)
-tagging_dir = os.path.join(root_dir, 'tagging')
-pieces = fullsplit(root_dir)
-if pieces[-1] == '':
-    len_root_dir = len(pieces) - 1
-else:
-    len_root_dir = len(pieces)
-
-for dirpath, dirnames, filenames in os.walk(tagging_dir):
-    # Ignore dirnames that start with '.'
-    for i, dirname in enumerate(dirnames):
-        if dirname.startswith('.'): del dirnames[i]
-    if '__init__.py' in filenames:
-        packages.append('.'.join(fullsplit(dirpath)[len_root_dir:]))
-    elif filenames:
-        data_files.append([dirpath, [os.path.join(dirpath, f) for f in filenames]])
-
 setup(
-    name = 'django-tagging',
-    version = tagging.__version__,
-    description = 'Generic tagging application for Django',
-    author = 'Jonathan Buchanan',
-    author_email = 'jonathan.buchanan@gmail.com',
-    url = 'https://github.com/Fantomas42/django-tagging',
-    packages = packages,
-    data_files = data_files,
-    classifiers = [
-        'Development Status :: 4 - Beta',
-        'Environment :: Web Environment',
+    name='django-tagging',
+    version=tagging.__version__,
+
+    description='Generic tagging application for Django',
+    long_description='\n'.join([open('README.rst').read(),
+                                open('CHANGELOG.txt').read()]),
+    keywords='django, tag, tagging',
+
+    author=tagging.__author__,
+    author_email=tagging.__author_email__,
+    maintainer=tagging.__maintainer__,
+    maintainer_email=tagging.__maintainer_email__,
+    url=tagging.__url__,
+    license=tagging.__license__,
+
+    packages=find_packages(),
+    include_package_data=True,
+    zip_safe=False,
+
+    classifiers=[
         'Framework :: Django',
+        'Environment :: Web Environment',
+        'Operating System :: OS Independent',
+        'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
-        'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.3',
         'Topic :: Utilities',
-    ],
+        'Topic :: Software Development :: Libraries :: Python Modules']
 )
