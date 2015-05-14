@@ -1,24 +1,16 @@
 """
 Django-tagging
 """
-VERSION = (0, 3, 6, 'final', 0)
+__version__ = '0.4.dev0'
+__license__ = 'BSD License'
 
+__author__ = 'Jonathan Buchanan'
+__author_email__ = 'jonathan.buchanan@gmail.com'
 
-def get_version():
-    if VERSION[3] == 'final':
-        return '%s.%s.%s' % (VERSION[0], VERSION[1], VERSION[2])
-    elif VERSION[3] == 'dev':
-        if VERSION[2] == 0:
-            return '%s.%s.%s%s' % (VERSION[0], VERSION[1],
-                                   VERSION[3], VERSION[4])
-        return '%s.%s.%s.%s%s' % (VERSION[0], VERSION[1],
-                                  VERSION[2], VERSION[3], VERSION[4])
-    else:
-        return '%s.%s.%s%s' % (VERSION[0], VERSION[1],
-                               VERSION[2], VERSION[3])
+__maintainer__ = 'Fantomas42'
+__maintainer_email__ = 'fantomas42@gmail.com'
 
-
-__version__ = get_version()
+__url__ = 'https://github.com/Fantomas42/django-tagging'
 
 
 class AlreadyRegistered(Exception):
