@@ -50,7 +50,7 @@ for dirpath, dirnames, filenames in os.walk(tagging_dir):
 
 setup(
     name = 'django-tagging',
-    version = tagging.get_version(),
+    version = tagging.__version__,
     description = 'Generic tagging application for Django',
     author = 'Jonathan Buchanan',
     author_email = 'jonathan.buchanan@gmail.com',
