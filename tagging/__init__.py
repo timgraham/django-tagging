@@ -4,8 +4,8 @@ Django-tagging
 __version__ = '0.4.dev0'
 __license__ = 'BSD License'
 
-__author__ = 'Jonathan Buchanan',
-__author_email__ = 'jonathan.buchanan@gmail.com',
+__author__ = 'Jonathan Buchanan'
+__author_email__ = 'jonathan.buchanan@gmail.com'
 
 __maintainer__ = 'Fantomas42'
 __maintainer_email__ = 'fantomas42@gmail.com'
