@@ -3,7 +3,7 @@ CHANGELOG.txt
 INSTALL.txt
 LICENSE.txt
 MANIFEST.in
-README.txt
+README.rst
 setup.py
 docs/overview.txt
 tagging/__init__.py
