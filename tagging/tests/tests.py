@@ -996,6 +996,7 @@ class TestTagFieldInForms(TestCase):
         class TestForm(forms.ModelForm):
             class Meta:
                 model = FormTest
+                fields = forms.ALL_FIELDS
 
         form = TestForm()
         self.assertEqual(form.fields['tags'].__class__.__name__, 'TagField')
