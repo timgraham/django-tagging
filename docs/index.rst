@@ -8,8 +8,15 @@ retrieval of tags simple.
 
 .. _`Django`: http://www.djangoproject.com
 
-.. contents::
-   :depth: 3
+.. toctree::
+   :maxdepth: 3
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
 
 
 Installation
