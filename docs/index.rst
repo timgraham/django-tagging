@@ -8,8 +8,9 @@ retrieval of tags simple.
 
 .. _`Django`: http://www.djangoproject.com
 
-.. toctree::
-   :maxdepth: 3
+.. contents::
+    :local:
+    :depth: 3
 
 Installation
 ============
