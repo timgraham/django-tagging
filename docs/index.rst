@@ -11,14 +11,6 @@ retrieval of tags simple.
 .. toctree::
    :maxdepth: 3
 
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
-
 Installation
 ============
 
@@ -31,21 +23,16 @@ https://pypi.python.org/pypi/django-tagging/
 Source distribution
 ~~~~~~~~~~~~~~~~~~~
 
-Download the .zip distribution file and unpack it. Inside is a script
+Download the a distribution file and unpack it. Inside is a script
 named ``setup.py``. Enter this command::
 
-   python setup.py install
+  $ python setup.py install
 
 ...and the package will install automatically.
 
-Windows installer
-~~~~~~~~~~~~~~~~~
+More easily with :program:`pip`::
 
-A Windows installer is also made available - download the .exe
-distribution file and launch it to install the application.
-
-An uninstaller will also be created, accessible through Add/Remove
-Programs in your Control Panel.
+  $ pip install django-tagging
 
 Installing the development version
 ----------------------------------
@@ -66,8 +53,8 @@ You can verify that the application is available on your PYTHONPATH by
 opening a Python interpreter and entering the following commands::
 
    >>> import tagging
-   >>> tagging.VERSION
-   (0, 3, 4, 'final', 0)
+   >>> tagging.__version__
+   0.4.dev0
 
 When you want to update your copy of the Django Tagging source code, run
 the command ``git pull`` from within the ``django-tagging`` directory.
@@ -91,13 +78,12 @@ Once you've installed Django Tagging and want to use it in your Django
 applications, do the following:
 
    1. Put ``'tagging'`` in your ``INSTALLED_APPS`` setting.
-   2. Run the command ``manage.py syncdb``.
+   2. Run the command ``manage.py migrate``.
 
-The ``syncdb`` command creates the necessary database tables and
+The ``migrate`` command creates the necessary database tables and
 creates permission objects for all installed apps that need them.
 
 That's it!
-
 
 Settings
 ========
