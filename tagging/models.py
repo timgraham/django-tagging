@@ -171,7 +171,7 @@ class TagManager(models.Manager):
         greater than or equal to ``min_count`` will be returned.
         Passing a value for ``min_count`` implies ``counts=True``.
         """
-        compiler = queryset.query.get_compiler(using='default')
+        compiler = queryset.query.get_compiler(using=queryset.db)
         where, params = compiler.compile(queryset.query.where)
         extra_joins = ' '.join(compiler.get_from_clause()[0][1:])
 
