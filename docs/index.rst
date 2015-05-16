@@ -129,12 +129,12 @@ access some additional tagging-related features.
 The ``register`` function
 -------------------------
 
-To register a model, import the ``tagging`` module and call its
+To register a model, import the ``tagging.registry`` module and call its
 ``register`` function, like so::
 
    from django.db import models
 
-   import tagging
+   from tagging.registry import register
 
    class Widget(models.Model):
        name = models.CharField(max_length=50)
