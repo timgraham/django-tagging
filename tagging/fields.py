@@ -5,10 +5,10 @@ from django.db.models import signals
 from django.db.models.fields import CharField
 from django.utils.translation import ugettext_lazy as _
 
-from . import settings
-from .models import Tag
-from .utils import edit_string_for_tags
-from .forms import TagField as TagFormField
+from tagging import settings
+from tagging.models import Tag
+from tagging.utils import edit_string_for_tags
+from tagging.forms import TagField as TagFormField
 
 
 class TagField(CharField):

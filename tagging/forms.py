@@ -1,12 +1,12 @@
 """
-Tagging components for Django's form library.
+Form components for tagging.
 """
 from django import forms
 from django.utils.translation import ugettext as _
 
-from . import settings
-from .models import Tag
-from .utils import parse_tag_input
+from tagging import settings
+from tagging.models import Tag
+from tagging.utils import parse_tag_input
 
 
 class TagAdminForm(forms.ModelForm):

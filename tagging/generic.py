@@ -1,3 +1,6 @@
+"""
+Generic components for tagging.
+"""
 from django.contrib.contenttypes.models import ContentType
 
 

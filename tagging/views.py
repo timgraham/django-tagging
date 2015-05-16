@@ -5,8 +5,9 @@ from django.http import Http404
 from django.utils.translation import ugettext as _
 from django.views.generic.list_detail import object_list
 
-from .models import Tag, TaggedItem
-from .utils import get_tag
+from tagging.models import Tag
+from tagging.models import TaggedItem
+from tagging.utils import get_tag
 
 
 def tagged_object_list(request, queryset_or_model=None, tag=None,

@@ -10,7 +10,8 @@ from django.test import TestCase
 
 from tagging import settings
 from tagging.forms import TagField
-from tagging.models import Tag, TaggedItem
+from tagging.models import Tag
+from tagging.models import TaggedItem
 from tagging.tests.models import Article
 from tagging.tests.models import Link
 from tagging.tests.models import Perch

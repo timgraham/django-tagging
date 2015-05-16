@@ -1,3 +1,3 @@
 """
-Migrations for tagging
+Migrations for tagging.
 """

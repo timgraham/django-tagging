@@ -1,11 +1,11 @@
 """
-Custom managers for Django models registered with the tagging
-application.
+Custom managers for tagging.
 """
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
 
-from .models import Tag, TaggedItem
+from tagging.models import Tag
+from tagging.models import TaggedItem
 
 
 class ModelTagManager(models.Manager):

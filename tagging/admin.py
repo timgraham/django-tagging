@@ -3,8 +3,9 @@ Admin components for tagging.
 """
 from django.contrib import admin
 
-from .models import Tag, TaggedItem
-from .forms import TagAdminForm
+from tagging.models import Tag
+from tagging.models import TaggedItem
+from tagging.forms import TagAdminForm
 
 
 class TagAdmin(admin.ModelAdmin):

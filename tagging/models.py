@@ -1,5 +1,5 @@
 """
-Models and managers for generic tagging.
+Models and managers for tagging.
 """
 from django.db import models
 from django.db import connection
@@ -9,12 +9,12 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 
-from . import settings
-from .utils import LOGARITHMIC
-from .utils import get_tag_list
-from .utils import calculate_cloud
-from .utils import parse_tag_input
-from .utils import get_queryset_and_model
+from tagging import settings
+from tagging.utils import LOGARITHMIC
+from tagging.utils import get_tag_list
+from tagging.utils import calculate_cloud
+from tagging.utils import parse_tag_input
+from tagging.utils import get_queryset_and_model
 
 
 qn = connection.ops.quote_name
