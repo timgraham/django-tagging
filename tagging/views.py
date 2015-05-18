@@ -2,19 +2,19 @@
 Tagging related views.
 """
 from django.http import Http404
+from django.views.generic.list import ListView
 from django.utils.translation import ugettext as _
-from django.views.generic.list_detail import object_list
+from django.core.exceptions import ImproperlyConfigured
 
 from tagging.models import Tag
 from tagging.models import TaggedItem
 from tagging.utils import get_tag
 
 
-def tagged_object_list(request, queryset_or_model=None, tag=None,
-                       related_tags=False, related_tag_counts=True, **kwargs):
+class TaggedObjectList(ListView):
     """
     A thin wrapper around
-    ``django.views.generic.list_detail.object_list`` which creates a
+    ``django.views.generic.list.ListView`` which creates a
     ``QuerySet`` containing instances of the given queryset or model
     tagged with the given tag.
 
@@ -28,30 +28,50 @@ def tagged_object_list(request, queryset_or_model=None, tag=None,
     tag will have a ``count`` attribute indicating the number of items
     which have it in addition to the given tag.
     """
-    if queryset_or_model is None:
-        try:
-            queryset_or_model = kwargs.pop('queryset_or_model')
-        except KeyError:
-            raise AttributeError(
-                _('tagged_object_list must be called '
-                  'with a queryset or a model.'))
+    tag = None
+    related_tags = False
+    related_tag_counts = True
 
-    if tag is None:
-        try:
-            tag = kwargs.pop('tag')
-        except KeyError:
-            raise AttributeError(
-                _('tagged_object_list must be called with a tag.'))
+    def get_tag(self):
+        if self.tag is None:
+            try:
+                self.tag = self.kwargs.pop('tag')
+            except KeyError:
+                raise AttributeError(
+                    _('TaggedObjectList must be called with a tag.'))
 
-    tag_instance = get_tag(tag)
-    if tag_instance is None:
-        raise Http404(_('No Tag found matching "%s".') % tag)
-    queryset = TaggedItem.objects.get_by_model(queryset_or_model, tag_instance)
-    if 'extra_context' not in kwargs:
-        kwargs['extra_context'] = {}
-    kwargs['extra_context']['tag'] = tag_instance
-    if related_tags:
-        kwargs['extra_context']['related_tags'] = \
-            Tag.objects.related_for_model(tag_instance, queryset_or_model,
-                                          counts=related_tag_counts)
-    return object_list(request, queryset, **kwargs)
+        tag_instance = get_tag(self.tag)
+        if tag_instance is None:
+            raise Http404(_('No Tag found matching "%s".') % self.tag)
+
+        return tag_instance
+
+    def get_queryset_or_model(self):
+        if self.queryset is not None:
+            return self.queryset
+        elif self.model is not None:
+            return self.model
+        else:
+            raise ImproperlyConfigured(
+                "%(cls)s is missing a QuerySet. Define "
+                "%(cls)s.model, %(cls)s.queryset, or override "
+                "%(cls)s.get_queryset_or_model()." % {
+                    'cls': self.__class__.__name__
+                }
+            )
+
+    def get_queryset(self):
+        self.queryset_or_model = self.get_queryset_or_model()
+        self.tag_instance = self.get_tag()
+        return TaggedItem.objects.get_by_model(
+            self.queryset_or_model, self.tag_instance)
+
+    def get_context_data(self, **kwargs):
+        context = super(TaggedObjectList, self).get_context_data(**kwargs)
+        context['tag'] = self.tag_instance
+
+        if self.related_tags:
+            context['related_tags'] = Tag.objects.related_for_model(
+                self.tag_instance, self.queryset_or_model,
+                counts=self.related_tag_counts)
+        return context
