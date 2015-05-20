@@ -7,12 +7,26 @@ python:
 env:
     - DJANGO=1.7
     - DJANGO=1.8
+    - DATABASE_ENGINE=sqlite
+    - DATABASE_ENGINE=postgres
+    - DATABASE_ENGINE=mysql
 matrix:
     fast_finish: true
 install:
     - pip install -U setuptools
     - python bootstrap.py
     - ./bin/buildout versions:django=$DJANGO
+    - sh -c "if [ '$DATABASE_ENGINE' = 'postgres' ];
+      then
+        pip install psycopg2;
+        psql -c 'create database tagging;' -U postgres;
+      fi"
+    - sh -c "if [ '$DATABASE_ENGINE' = 'mysql' ];
+      then
+        pip install mysql-python;
+        mysql -e 'create database tagging CHARACTER SET utf8 COLLATE utf8_general_ci;';
+        mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root mysql;
+      fi"
 before_script:
     - ./bin/flake8 tagging
 script:
