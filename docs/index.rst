@@ -715,29 +715,26 @@ Generic views
 The ``tagging.views`` module contains views to handle simple cases of
 common display logic related to tagging.
 
-``tagging.views.tagged_object_list``
-------------------------------------
+``tagging.views.TaggedObjectList``
+----------------------------------
 
 **Description:**
 
 A view that displays a list of objects for a given model which have a
 given tag. This is a thin wrapper around the
-``django.views.generic.list_detail.object_list`` view, which takes a
+``django.views.generic.list.ListView`` view, which takes a
 model and a tag as its arguments (in addition to the other optional
-arguments supported by ``object_list``), building the appropriate
+arguments supported by ``ListView``), building the appropriate
 ``QuerySet`` for you instead of expecting one to be passed in.
 
 **Required arguments:**
-
-   * ``queryset_or_model``: A ``QuerySet`` or Django model class for the
-     object which will be listed.
 
    * ``tag``: The tag which objects of the given model must have in
      order to be listed.
 
 **Optional arguments:**
 
-Please refer to the `object_list documentation`_ for additional optional
+Please refer to the `ListView documentation`_ for additional optional
 arguments which may be given.
 
    * ``related_tags``: If ``True``, a ``related_tags`` context variable
@@ -751,12 +748,12 @@ arguments which may be given.
 
 **Template context:**
 
-Please refer to the `object_list documentation`_ for  additional
+Please refer to the `ListView documentation`_ for  additional
 template context variables which may be provided.
 
    * ``tag``: The ``Tag`` instance for the given tag.
 
-.. _`object_list documentation`: http://docs.djangoproject.com/en/dev/ref/generic-views/#django-views-generic-list-detail-object-list
+.. _`ListView documentation`: https://docs.djangoproject.com/en/1.8/ref/class-based-views/generic-display/#listview
 
 Example usage
 ~~~~~~~~~~~~~
@@ -766,15 +763,13 @@ list items of a particular model class which have a given tag::
 
    from django.conf.urls.defaults import *
 
-   from tagging.views import tagged_object_list
+   from tagging.views import TaggedObjectList
 
    from shop.apps.products.models import Widget
 
    urlpatterns = patterns('',
-       url(r'^widgets/tag/(?P<tag>[^/]+)/$',
-           tagged_object_list,
-           dict(queryset_or_model=Widget, paginate_by=10, allow_empty=True,
-                template_object_name='widget'),
+       url(r'^widgets/tag/(?P<tag>[^/]+(?u))/$',
+           TaggedObjectList.as_view(model=Widget, paginate_by=10, allow_empty=True),
            name='widget_tag_detail'),
    )
 
@@ -783,13 +778,10 @@ perform filtering of the objects which are listed::
 
    from myapp.models import People
 
-   from tagging.views import tagged_object_list
+   from tagging.views import TaggedObjectList
 
-   def tagged_people(request, country_code, tag):
+   class TaggedPeopleFilteredList(TaggedObjectList):
        queryset = People.objects.filter(country__code=country_code)
-       return tagged_object_list(request, queryset, tag, paginate_by=25,
-           allow_empty=True, template_object_name='people')
-
 
 Template tags
 =============
