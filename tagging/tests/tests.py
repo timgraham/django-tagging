@@ -1021,7 +1021,8 @@ class TestTagFieldInForms(TestCase):
                          '"com,ma", spa ces')
 
     def test_tag_d_validation(self):
-        t = TagField()
+        t = TagField(required=False)
+        self.assertEqual(t.clean(''), '')
         self.assertEqual(t.clean('foo'), 'foo')
         self.assertEqual(t.clean('foo bar baz'), 'foo bar baz')
         self.assertEqual(t.clean('foo,bar,baz'), 'foo,bar,baz')

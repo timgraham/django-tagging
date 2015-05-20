@@ -33,8 +33,6 @@ class TagField(forms.CharField):
     """
     def clean(self, value):
         value = super(TagField, self).clean(value)
-        if value == '':
-            return value
         for tag_name in parse_tag_input(value):
             if len(tag_name) > settings.MAX_TAG_LENGTH:
                 raise forms.ValidationError(
