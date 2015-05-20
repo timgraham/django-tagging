@@ -7,6 +7,8 @@ from django import forms
 from django.utils import six
 from django.db.models import Q
 from django.test import TestCase
+from django.test.utils import override_settings
+from django.core.exceptions import ImproperlyConfigured
 
 from tagging import settings
 from tagging.forms import TagField
@@ -1031,3 +1033,61 @@ class TestTagFieldInForms(TestCase):
         self.assertRaises(
             forms.ValidationError, t.clean,
             'foo qwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbn bar')
+
+
+#########
+# Views #
+#########
+
+
+@override_settings(
+    ROOT_URLCONF='tagging.tests.urls',
+    TEMPLATE_LOADERS=(
+        'tagging.tests.utils.VoidLoader',
+    ),
+)
+class TestTaggedObjectList(TestCase):
+
+    def setUp(self):
+        self.a1 = Article.objects.create(name='article 1')
+        self.a2 = Article.objects.create(name='article 2')
+        Tag.objects.update_tags(self.a1, 'static tag test')
+        Tag.objects.update_tags(self.a2, 'static test')
+
+    def get_view(self, url, queries=1, code=200,
+                 expected_items=1,
+                 friendly_context='article_list',
+                 template='tests/article_list.html'):
+        with self.assertNumQueries(queries):
+            response = self.client.get(url)
+        self.assertEquals(response.status_code, code)
+
+        if code == 200:
+            self.assertTrue(isinstance(response.context['tag'], Tag))
+            self.assertEqual(len(response.context['object_list']),
+                             expected_items)
+            self.assertEqual(response.context['object_list'],
+                             response.context[friendly_context])
+            self.assertTemplateUsed(response, template)
+        return response
+
+    def test_view_static(self):
+        self.get_view('/static/', expected_items=2)
+
+    def test_view_dynamic(self):
+        self.get_view('/tag/', expected_items=1)
+
+    def test_view_related(self):
+        response = self.get_view('/static/related/',
+                                 queries=2, expected_items=2)
+        self.assertEquals(len(response.context['related_tags']), 2)
+
+    def test_view_no_queryset_no_model(self):
+        self.assertRaises(ImproperlyConfigured, self.get_view,
+                          '/no-query-no-model/')
+
+    def test_view_no_tag(self):
+        self.assertRaises(AttributeError, self.get_view, '/no-tag/')
+
+    def test_view_404(self):
+        self.get_view('/unavailable/', code=404)

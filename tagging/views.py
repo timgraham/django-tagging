@@ -9,6 +9,7 @@ from django.core.exceptions import ImproperlyConfigured
 from tagging.models import Tag
 from tagging.models import TaggedItem
 from tagging.utils import get_tag
+from tagging.utils import get_queryset_and_model
 
 
 class TaggedObjectList(ListView):
@@ -71,7 +72,7 @@ class TaggedObjectList(ListView):
         context['tag'] = self.tag_instance
 
         if self.related_tags:
+            queryset, model = get_queryset_and_model(self.queryset_or_model)
             context['related_tags'] = Tag.objects.related_for_model(
-                self.tag_instance, self.queryset_or_model,
-                counts=self.related_tag_counts)
+                self.tag_instance, model, counts=self.related_tag_counts)
         return context
