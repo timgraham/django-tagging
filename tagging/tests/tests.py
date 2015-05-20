@@ -12,6 +12,7 @@ from django.core.exceptions import ImproperlyConfigured
 
 from tagging import settings
 from tagging.forms import TagField
+from tagging.forms import TagAdminForm
 from tagging.models import Tag
 from tagging.models import TaggedItem
 from tagging.tests.models import Article
@@ -1035,6 +1036,27 @@ class TestTagFieldInForms(TestCase):
             forms.ValidationError, t.clean,
             'foo qwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbn bar')
 
+#########
+# Forms #
+#########
+
+
+class TestTagAdminForm(TestCase):
+
+    def test_clean_name(self):
+        datas = {'name': 'tag'}
+        form = TagAdminForm(datas)
+        self.assertTrue(form.is_valid())
+
+    def test_clean_name_multi(self):
+        datas = {'name': 'tag error'}
+        form = TagAdminForm(datas)
+        self.assertFalse(form.is_valid())
+
+    def test_clean_name_too_long(self):
+        datas = {'name': 't' * (settings.MAX_TAG_LENGTH + 1)}
+        form = TagAdminForm(datas)
+        self.assertFalse(form.is_valid())
 
 #########
 # Views #
