@@ -1,8 +1,8 @@
 """
 Tests utils for tagging.
 """
-
 from django.template.loader import BaseLoader
+
 
 class VoidLoader(BaseLoader):
     """
