@@ -14,11 +14,17 @@ env:
 matrix:
     exclude:
         - python: 3.2
-          env: DATABASE_ENGINE=mysql
+          env: DJANGO=1.7 DATABASE_ENGINE=mysql
         - python: 3.3
-          env: DATABASE_ENGINE=mysql
+          env: DJANGO=1.7 DATABASE_ENGINE=mysql
         - python: 3.4
-          env: DATABASE_ENGINE=mysql
+          env: DJANGO=1.7 DATABASE_ENGINE=mysql
+        - python: 3.2
+          env: DJANGO=1.8 DATABASE_ENGINE=mysql
+        - python: 3.3
+          env: DJANGO=1.8 DATABASE_ENGINE=mysql
+        - python: 3.4
+          env: DJANGO=1.8 DATABASE_ENGINE=mysql
     fast_finish: true
 install:
     - pip install -U setuptools
