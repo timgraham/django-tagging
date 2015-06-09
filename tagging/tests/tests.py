@@ -804,6 +804,12 @@ class TestGetTaggedObjectsByModel(TestCase):
         # Issue 114 - Union with non-existant tags
         parrots = TaggedItem.objects.get_union_by_model(Parrot, [])
         self.assertEqual(len(parrots), 0)
+        parrots = TaggedItem.objects.get_union_by_model(Parrot, ['albert'])
+        self.assertEqual(len(parrots), 0)
+
+        Tag.objects.create(name='titi')
+        parrots = TaggedItem.objects.get_union_by_model(Parrot, ['titi'])
+        self.assertEqual(len(parrots), 0)
 
 
 class TestGetRelatedTaggedItems(TestCase):
