@@ -82,6 +82,8 @@ class TestParseTagInput(TestCase):
                          ['a-one', 'a-two, and a-three'])
         self.assertEqual(parse_tag_input('"two", one, one, two, "one"'),
                          ['one', 'two'])
+        self.assertEqual(parse_tag_input('two", one'),
+                         ['one', 'two'])
 
     def test_with_naughty_input(self):
         """ Test with naughty input. """
