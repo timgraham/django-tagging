@@ -1087,6 +1087,12 @@ class TestTagFieldInForms(TestCase):
             forms.ValidationError, t.clean,
             'foo qwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbn bar')
 
+    def test_tag_get_from_model(self):
+        FormTest.objects.create(tags='test3 test2 test1')
+        FormTest.objects.create(tags='toto titi')
+        self.assertEquals(FormTest.tags, 'test1 test2 test3 titi toto')
+
+
 #########
 # Forms #
 #########
