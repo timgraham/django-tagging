@@ -89,9 +89,6 @@ def split_strip(input, delimiter=','):
     Splits ``input`` on ``delimiter``, stripping each resulting string
     and returning a list of non-empty strings.
     """
-    if not input:
-        return []
-
     words = [w.strip() for w in input.split(delimiter)]
     return [w for w in words if w]
 

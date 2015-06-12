@@ -82,6 +82,8 @@ class TestParseTagInput(TestCase):
                          ['a-one', 'a-two, and a-three'])
         self.assertEqual(parse_tag_input('"two", one, one, two, "one"'),
                          ['one', 'two'])
+        self.assertEqual(parse_tag_input('two", one'),
+                         ['one', 'two'])
 
     def test_with_naughty_input(self):
         """ Test with naughty input. """
@@ -684,6 +686,49 @@ class TestTagsRelatedForModel(TestCase):
         self.assertEqual(len(relevant_attribute_list), 0)
 
 
+class TestTagCloudForModel(TestCase):
+    def setUp(self):
+        parrot_details = (
+            ('pining for the fjords', 9, True,  'foo bar'),
+            ('passed on',             6, False, 'bar baz ter'),
+            ('no more',               4, True,  'foo ter'),
+            ('late',                  2, False, 'bar ter'),
+        )
+
+        for state, perch_size, perch_smelly, tags in parrot_details:
+            perch = Perch.objects.create(size=perch_size, smelly=perch_smelly)
+            parrot = Parrot.objects.create(state=state, perch=perch)
+            Tag.objects.update_tags(parrot, tags)
+
+    def test_tag_cloud_for_model(self):
+        tag_cloud = Tag.objects.cloud_for_model(Parrot)
+        relevant_attribute_list = [(tag.name, tag.count, tag.font_size)
+                                   for tag in tag_cloud]
+        self.assertEqual(len(relevant_attribute_list), 4)
+        self.assertTrue(('bar', 3, 4) in relevant_attribute_list)
+        self.assertTrue(('baz', 1, 1) in relevant_attribute_list)
+        self.assertTrue(('foo', 2, 2) in relevant_attribute_list)
+        self.assertTrue(('ter', 3, 4) in relevant_attribute_list)
+
+    def test_tag_cloud_for_model_filters(self):
+        tag_cloud = Tag.objects.cloud_for_model(Parrot,
+                                                filters={'state': 'no more'})
+        relevant_attribute_list = [(tag.name, tag.count, tag.font_size)
+                                   for tag in tag_cloud]
+        self.assertEqual(len(relevant_attribute_list), 2)
+        self.assertTrue(('foo', 1, 1) in relevant_attribute_list)
+        self.assertTrue(('ter', 1, 1) in relevant_attribute_list)
+
+    def test_tag_cloud_for_model_min_count(self):
+        tag_cloud = Tag.objects.cloud_for_model(Parrot, min_count=2)
+        relevant_attribute_list = [(tag.name, tag.count, tag.font_size)
+                                   for tag in tag_cloud]
+        self.assertEqual(len(relevant_attribute_list), 3)
+        self.assertTrue(('bar', 3, 4) in relevant_attribute_list)
+        self.assertTrue(('foo', 2, 1) in relevant_attribute_list)
+        self.assertTrue(('ter', 3, 4) in relevant_attribute_list)
+
+
 class TestGetTaggedObjectsByModel(TestCase):
     def setUp(self):
         parrot_details = (
@@ -801,6 +846,12 @@ class TestGetTaggedObjectsByModel(TestCase):
 
         # Issue 114 - Union with non-existant tags
         parrots = TaggedItem.objects.get_union_by_model(Parrot, [])
+        self.assertEqual(len(parrots), 0)
+        parrots = TaggedItem.objects.get_union_by_model(Parrot, ['albert'])
+        self.assertEqual(len(parrots), 0)
+
+        Tag.objects.create(name='titi')
+        parrots = TaggedItem.objects.get_union_by_model(Parrot, ['titi'])
         self.assertEqual(len(parrots), 0)
 
 
@@ -1035,6 +1086,12 @@ class TestTagFieldInForms(TestCase):
         self.assertRaises(
             forms.ValidationError, t.clean,
             'foo qwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbn bar')
+
+    def test_tag_get_from_model(self):
+        FormTest.objects.create(tags='test3 test2 test1')
+        FormTest.objects.create(tags='toto titi')
+        self.assertEquals(FormTest.tags, 'test1 test2 test3 titi toto')
+
 
 #########
 # Forms #
