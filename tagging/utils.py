@@ -4,8 +4,8 @@ calculation.
 """
 import math
 
-from django.db.models.query import QuerySet
 from django.utils import six
+from django.db.models.query import QuerySet
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext as _
 
@@ -89,9 +89,6 @@ def split_strip(input, delimiter=','):
     Splits ``input`` on ``delimiter``, stripping each resulting string
     and returning a list of non-empty strings.
     """
-    if not input:
-        return []
-
     words = [w.strip() for w in input.split(delimiter)]
     return [w for w in words if w]
 
@@ -181,14 +178,16 @@ def get_tag_list(tags):
                 contents.add('int')
         if len(contents) == 1:
             if 'string' in contents:
-                return Tag.objects.filter(name__in=[force_text(tag) \
+                return Tag.objects.filter(name__in=[force_text(tag)
                                                     for tag in tags])
             elif 'tag' in contents:
                 return tags
             elif 'int' in contents:
                 return Tag.objects.filter(id__in=tags)
         else:
-            raise ValueError(_('If a list or tuple of tags is provided, they must all be tag names, Tag objects or Tag ids.'))
+            raise ValueError(
+                _('If a list or tuple of tags is provided, '
+                  'they must all be tag names, Tag objects or Tag ids.'))
     else:
         raise ValueError(_('The tag input given was invalid.'))
 
@@ -227,15 +226,16 @@ def _calculate_thresholds(min_weight, max_weight, steps):
 def _calculate_tag_weight(weight, max_weight, distribution):
     """
     Logarithmic tag weight calculation is based on code from the
-    `Tag Cloud`_ plugin for Mephisto, by Sven Fuchs.
+    *Tag Cloud* plugin for Mephisto, by Sven Fuchs.
 
-    .. _`Tag Cloud`: http://www.artweb-design.de/projects/mephisto-plugin-tag-cloud
+    http://www.artweb-design.de/projects/mephisto-plugin-tag-cloud
     """
     if distribution == LINEAR or max_weight == 1:
         return weight
     elif distribution == LOGARITHMIC:
         return math.log(weight) * max_weight / math.log(max_weight)
-    raise ValueError(_('Invalid distribution algorithm specified: %s.') % distribution)
+    raise ValueError(
+        _('Invalid distribution algorithm specified: %s.') % distribution)
 
 
 def calculate_cloud(tags, steps=4, distribution=LOGARITHMIC):
@@ -258,7 +258,8 @@ def calculate_cloud(tags, steps=4, distribution=LOGARITHMIC):
         thresholds = _calculate_thresholds(min_weight, max_weight, steps)
         for tag in tags:
             font_set = False
-            tag_weight = _calculate_tag_weight(tag.count, max_weight, distribution)
+            tag_weight = _calculate_tag_weight(
+                tag.count, max_weight, distribution)
             for i in range(steps):
                 if not font_set and tag_weight <= thresholds[i]:
                     tag.font_size = i + 1

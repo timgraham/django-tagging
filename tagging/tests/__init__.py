@@ -1,1 +1,3 @@
-from .tests import *
+"""
+Tests for tagging.
+"""

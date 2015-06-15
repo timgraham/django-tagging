@@ -1,7 +1,10 @@
 include CHANGELOG.txt
-include INSTALL.txt
 include LICENSE.txt
 include MANIFEST.in
-include README.txt
-recursive-include docs *.txt
+include README.rst
+include versions.cfg
+include buildout.cfg
+include bootstrap.py
+recursive-include docs *
 recursive-include tagging/tests *.txt
+prune docs/_build

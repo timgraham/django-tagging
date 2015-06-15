@@ -5,9 +5,10 @@ from django.db.models import signals
 from django.db.models.fields import CharField
 from django.utils.translation import ugettext_lazy as _
 
-from . import settings
-from .models import Tag
-from .utils import edit_string_for_tags
+from tagging import settings
+from tagging.models import Tag
+from tagging.utils import edit_string_for_tags
+from tagging.forms import TagField as TagFormField
 
 
 class TagField(CharField):
@@ -59,7 +60,8 @@ class TagField(CharField):
                 self._set_instance_tag_cache(instance, '')
             else:
                 self._set_instance_tag_cache(
-                    instance, edit_string_for_tags(Tag.objects.get_for_object(instance)))
+                    instance, edit_string_for_tags(
+                        Tag.objects.get_for_object(instance)))
         return self._get_instance_tag_cache(instance)
 
     def __set__(self, instance, value):
@@ -67,7 +69,8 @@ class TagField(CharField):
         Set an object's tags.
         """
         if instance is None:
-            raise AttributeError(_('%s can only be set on instances.') % self.name)
+            raise AttributeError(
+                _('%s can only be set on instances.') % self.name)
         if settings.FORCE_LOWERCASE_TAGS and value is not None:
             value = value.lower()
         self._set_instance_tag_cache(instance, value)
@@ -102,7 +105,6 @@ class TagField(CharField):
         return 'CharField'
 
     def formfield(self, **kwargs):
-        from tagging import forms
-        defaults = {'form_class': forms.TagField}
+        defaults = {'form_class': TagFormField}
         defaults.update(kwargs)
         return super(TagField, self).formfield(**defaults)
