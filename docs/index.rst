@@ -139,7 +139,7 @@ To register a model, import the ``tagging.registry`` module and call its
    class Widget(models.Model):
        name = models.CharField(max_length=50)
 
-   tagging.register(Widget)
+   register(Widget)
 
 The following argument is required:
 
