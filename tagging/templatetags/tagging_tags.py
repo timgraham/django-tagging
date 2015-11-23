@@ -5,7 +5,7 @@ from django.template import Node
 from django.template import Library
 from django.template import Variable
 from django.template import TemplateSyntaxError
-from django.apps.registery import apps
+from django.apps.registry import apps
 from django.utils.translation import ugettext as _
 
 from tagging.utils import LINEAR
