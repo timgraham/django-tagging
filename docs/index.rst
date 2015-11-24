@@ -160,7 +160,7 @@ with your model class' definition:
    See `TagDescriptor`_ below for details about the use of this
    descriptor.
 
-``tagged_item_manger_attr``
+``tagged_item_manager_attr``
    The name of an attribute in the model class which will hold a custom
    manager for accessing tagged items for the model. Default:
    ``'tagged'``.
