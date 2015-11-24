@@ -884,3 +884,4 @@ The tag must be an instance of a ``Tag``, not the name of a tag.
 Example::
 
     {% tagged_objects comedy_tag in tv.Show as comedies %}
+
