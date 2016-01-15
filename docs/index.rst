@@ -139,7 +139,7 @@ To register a model, import the ``tagging.registry`` module and call its
    class Widget(models.Model):
        name = models.CharField(max_length=50)
 
-   tagging.register(Widget)
+   register(Widget)
 
 The following argument is required:
 
@@ -160,7 +160,7 @@ with your model class' definition:
    See `TagDescriptor`_ below for details about the use of this
    descriptor.
 
-``tagged_item_manger_attr``
+``tagged_item_manager_attr``
    The name of an attribute in the model class which will hold a custom
    manager for accessing tagged items for the model. Default:
    ``'tagged'``.
@@ -884,3 +884,4 @@ The tag must be an instance of a ``Tag``, not the name of a tag.
 Example::
 
     {% tagged_objects comedy_tag in tv.Show as comedies %}
+
