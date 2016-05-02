@@ -1,10 +1,10 @@
 """
 Tests utils for tagging.
 """
-from django.template.loader import BaseLoader
+from django.template.loaders.base import Loader
 
 
-class VoidLoader(BaseLoader):
+class VoidLoader(Loader):
     """
     Template loader which is always returning
     an empty template.

@@ -1140,9 +1140,14 @@ class TestTagAdminForm(TestCase):
 
 @override_settings(
     ROOT_URLCONF='tagging.tests.urls',
-    TEMPLATE_LOADERS=(
-        'tagging.tests.utils.VoidLoader',
-    ),
+    TEMPLATES=[
+        {
+            'BACKEND': 'django.template.backends.django.DjangoTemplates',
+            'OPTIONS': {
+                'loaders': ('tagging.tests.utils.VoidLoader',)
+            }
+        }
+    ]
 )
 class TestTaggedObjectList(TestCase):
 
