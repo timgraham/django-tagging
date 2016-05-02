@@ -1,31 +1,14 @@
 language: python
 python:
     - 2.7
-    - 3.2
-    - 3.3
     - 3.4
 env:
-    - DJANGO=1.7 DATABASE_ENGINE=sqlite
-    - DJANGO=1.7 DATABASE_ENGINE=postgres
-    - DJANGO=1.7 DATABASE_ENGINE=mysql
     - DJANGO=1.8 DATABASE_ENGINE=sqlite
     - DJANGO=1.8 DATABASE_ENGINE=postgres
     - DJANGO=1.8 DATABASE_ENGINE=mysql
-matrix:
-    exclude:
-        - python: 3.2
-          env: DJANGO=1.7 DATABASE_ENGINE=mysql
-        - python: 3.3
-          env: DJANGO=1.7 DATABASE_ENGINE=mysql
-        - python: 3.4
-          env: DJANGO=1.7 DATABASE_ENGINE=mysql
-        - python: 3.2
-          env: DJANGO=1.8 DATABASE_ENGINE=mysql
-        - python: 3.3
-          env: DJANGO=1.8 DATABASE_ENGINE=mysql
-        - python: 3.4
-          env: DJANGO=1.8 DATABASE_ENGINE=mysql
-    fast_finish: true
+    - DJANGO=1.9 DATABASE_ENGINE=sqlite
+    - DJANGO=1.9 DATABASE_ENGINE=postgres
+    - DJANGO=1.9 DATABASE_ENGINE=mysql
 install:
     - pip install -U setuptools
     - python bootstrap.py
@@ -37,7 +20,7 @@ install:
       fi"
     - sh -c "if [ '$DATABASE_ENGINE' = 'mysql' ];
       then
-        pip install mysql-python;
+        pip install mysqlclient;
         mysql -e 'create database tagging CHARACTER SET utf8 COLLATE utf8_general_ci;';
         mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root mysql;
       fi"
