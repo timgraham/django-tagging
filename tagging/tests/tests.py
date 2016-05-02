@@ -22,11 +22,13 @@ from tagging.tests.models import Parrot
 from tagging.tests.models import FormTest
 from tagging.tests.models import FormTestNull
 from tagging.utils import LINEAR
+from tagging.utils import LOGARITHMIC
 from tagging.utils import get_tag
 from tagging.utils import get_tag_list
 from tagging.utils import calculate_cloud
 from tagging.utils import parse_tag_input
 from tagging.utils import edit_string_for_tags
+from tagging.utils import _calculate_tag_weight
 
 #############
 # Utilities #
@@ -248,6 +250,22 @@ class TestCalculateCloud(TestCase):
         else:
             raise self.failureException(
                 'a ValueError exception was supposed to be raised!')
+
+    def test_calculate_tag_weight(self):
+        self.assertEqual(
+            _calculate_tag_weight(10, 20, LINEAR),
+            10)
+        self.assertEqual(
+            _calculate_tag_weight(10, 20, LOGARITHMIC),
+            15.37243573680482)
+
+    def test_calculate_tag_weight_invalid_size(self):
+        self.assertEqual(
+            _calculate_tag_weight(10, 10, LOGARITHMIC),
+            10.0)
+        self.assertEqual(
+            _calculate_tag_weight(26, 26, LOGARITHMIC),
+            26.0)
 
 ###########
 # Tagging #
