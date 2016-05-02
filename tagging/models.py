@@ -431,12 +431,18 @@ class TaggedItemManager(models.Manager):
         GROUP BY %(model_pk)s
         ORDER BY %(count)s DESC
         %(limit_offset)s"""
+        try:
+            tagging_table = qn(self.model._meta.get_field(
+                'tag').remote_field.model._meta.db_table)
+        except AttributeError:  # Django < 1.9
+            tagging_table = qn(self.model._meta.get_field(
+                'tag').rel.to._meta.db_table)
         query = query % {
             'model_pk': '%s.%s' % (model_table, qn(model._meta.pk.column)),
             'count': qn('count'),
             'model': model_table,
             'tagged_item': qn(self.model._meta.db_table),
-            'tag': qn(self.model._meta.get_field('tag').rel.to._meta.db_table),
+            'tag': tagging_table,
             'content_type_id': content_type.pk,
             'related_content_type_id': related_content_type.pk,
             # Hardcoding this for now just to get tests working again - this
@@ -492,11 +498,13 @@ class TaggedItem(models.Model):
     tag = models.ForeignKey(
         Tag,
         verbose_name=_('tag'),
-        related_name='items')
+        related_name='items',
+        on_delete=models.CASCADE)
 
     content_type = models.ForeignKey(
         ContentType,
-        verbose_name=_('content type'))
+        verbose_name=_('content type'),
+        on_delete=models.CASCADE)
 
     object_id = models.PositiveIntegerField(
         _('object id'),
