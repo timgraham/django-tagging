@@ -1,12 +1,8 @@
 language: python
 python:
     - 2.7
-    - 3.3
     - 3.4
 env:
-    - DJANGO=1.7 DATABASE_ENGINE=sqlite
-    - DJANGO=1.7 DATABASE_ENGINE=postgres
-    - DJANGO=1.7 DATABASE_ENGINE=mysql
     - DJANGO=1.8 DATABASE_ENGINE=sqlite
     - DJANGO=1.8 DATABASE_ENGINE=postgres
     - DJANGO=1.8 DATABASE_ENGINE=mysql
