@@ -2,6 +2,23 @@
 Django Tagging Changelog
 ========================
 
+Version 0.4.2, 2nd May 2016:
+----------------------------
+
+* Fix tag weight
+* Reduce warnings for recent versions of Django
+
+Version 0.4.1, 15th January 2016:
+---------------------------------
+
+* Typo fixes
+* Support apps
+
+Version 0.4, 15th June 2015:
+----------------------------
+
+* Modernization of the package
+
 Version 0.3.6, 13th May 2015:
 -----------------------------
 

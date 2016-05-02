@@ -12,7 +12,8 @@ class Perch(models.Model):
 @python_2_unicode_compatible
 class Parrot(models.Model):
     state = models.CharField(max_length=50)
-    perch = models.ForeignKey(Perch, null=True)
+    perch = models.ForeignKey(Perch, null=True,
+                              on_delete=models.CASCADE)
 
     def __str__(self):
         return self.state

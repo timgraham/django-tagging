@@ -233,7 +233,9 @@ def _calculate_tag_weight(weight, max_weight, distribution):
     if distribution == LINEAR or max_weight == 1:
         return weight
     elif distribution == LOGARITHMIC:
-        return math.log(weight) * max_weight / math.log(max_weight)
+        return min(
+            math.log(weight) * max_weight / math.log(max_weight),
+            max_weight)
     raise ValueError(
         _('Invalid distribution algorithm specified: %s.') % distribution)
 

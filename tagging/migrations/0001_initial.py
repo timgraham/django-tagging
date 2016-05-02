@@ -35,9 +35,11 @@ class Migration(migrations.Migration):
                     verbose_name='object id', db_index=True)),
                 ('content_type', models.ForeignKey(
                     verbose_name='content type',
+                    on_delete=models.SET_NULL,
                     to='contenttypes.ContentType')),
                 ('tag', models.ForeignKey(
                     related_name='items', verbose_name='tag',
+                    on_delete=models.SET_NULL,
                     to='tagging.Tag')),
             ],
             options={
