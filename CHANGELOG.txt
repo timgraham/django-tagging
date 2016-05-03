@@ -2,6 +2,11 @@
 Django Tagging Changelog
 ========================
 
+Version 0.4.3, 3rd May 2016:
+----------------------------
+
+* Add missing migration for ``on_delete``
+
 Version 0.4.2, 2nd May 2016:
 ----------------------------
 
