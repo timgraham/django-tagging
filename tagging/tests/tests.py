@@ -1081,6 +1081,7 @@ class TestTagFieldInForms(TestCase):
         spaces = Tag.objects.create(name='spa ces')
         comma = Tag.objects.create(name='com,ma')
         self.assertEqual(edit_string_for_tags([plain]), 'plain')
+        self.assertEqual(edit_string_for_tags([spaces]), '"spa ces"')
         self.assertEqual(edit_string_for_tags([plain, spaces]),
                          'plain, spa ces')
         self.assertEqual(edit_string_for_tags([plain, spaces, comma]),
