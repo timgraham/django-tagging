@@ -123,7 +123,8 @@ def edit_string_for_tags(tags):
         glue = ' '
     result = glue.join(names)
 
-    # If we only had one name, and it had spaces, we need to enclose it in quotes.
+    # If we only had one name, and it had spaces,
+    # we need to enclose it in quotes.
     # Otherwise, it's interpreted as two tags.
     if len(names) == 1 and use_commas:
         result = '"' + result + '"'
