@@ -50,3 +50,8 @@ class FormTest(models.Model):
 
 class FormTestNull(models.Model):
     tags = TagField(null=True)
+
+
+class FormMultipleFieldTest(models.Model):
+    tags = TagField('Test', help_text='Test')
+    name = models.CharField(max_length=50)
