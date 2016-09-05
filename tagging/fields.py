@@ -99,6 +99,12 @@ class TagField(CharField):
         """
         Helper: set an instance's tag cache.
         """
+        # The next instruction does nothing particular,
+        # but needed to by-pass the deferred fields system
+        # when saving an instance, which check the keys present
+        # in instance.__dict__.
+        # The issue is introducted in Django 1.10
+        instance.__dict__['tags'] = True
         setattr(instance, '_%s_cache' % self.attname, tags)
 
     def get_internal_type(self):
