@@ -9,6 +9,9 @@ env:
     - DJANGO=1.9 DATABASE_ENGINE=sqlite
     - DJANGO=1.9 DATABASE_ENGINE=postgres
     - DJANGO=1.9 DATABASE_ENGINE=mysql
+    - DJANGO=1.10 DATABASE_ENGINE=sqlite
+    - DJANGO=1.10 DATABASE_ENGINE=postgres
+    - DJANGO=1.10 DATABASE_ENGINE=mysql
 install:
     - pip install -U setuptools
     - python bootstrap.py
