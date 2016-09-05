@@ -21,6 +21,7 @@ from tagging.tests.models import Perch
 from tagging.tests.models import Parrot
 from tagging.tests.models import FormTest
 from tagging.tests.models import FormTestNull
+from tagging.tests.models import FormMultipleFieldTest
 from tagging.utils import LINEAR
 from tagging.utils import LOGARITHMIC
 from tagging.utils import get_tag
@@ -459,6 +460,39 @@ class TestModelTagField(TestCase):
     def test_creation_with_nullable_tags_field(self):
         f1 = FormTestNull()
         self.assertEqual(f1.tags, '')
+
+    def test_fix_update_tag_field_deferred(self):
+        """
+        Bug introduced in Django 1.10
+        the TagField is considered "deferred" on Django 1.10
+        because instance.__dict__ is not populated by the TagField
+        instance, so it's excluded when updating a model instance.
+
+        Note: this does not append if you only have one TagField
+        in your model...
+        """
+        f1 = FormMultipleFieldTest.objects.create(tags='one two')
+        self.assertEqual(f1.tags, 'one two')
+        tags = Tag.objects.get_for_object(f1)
+        self.assertEqual(len(tags), 2)
+        test1_tag = get_tag('one')
+        test2_tag = get_tag('two')
+        self.assertTrue(test1_tag in tags)
+        self.assertTrue(test2_tag in tags)
+
+        f1.tags = f1.tags + ' three'
+        f1.save()
+        self.assertEqual(f1.tags, 'one two three')
+        tags = Tag.objects.get_for_object(f1)
+        self.assertEqual(len(tags), 3)
+        test3_tag = get_tag('three')
+        self.assertTrue(test3_tag in tags)
+
+        f1again = FormMultipleFieldTest.objects.get(pk=f1.pk)
+        self.assertEqual(f1again.tags, 'one two three')
+
+        tags = Tag.objects.get_for_object(f1again)
+        self.assertEqual(len(tags), 3)
 
 
 class TestSettings(TestCase):
@@ -1081,6 +1115,7 @@ class TestTagFieldInForms(TestCase):
         spaces = Tag.objects.create(name='spa ces')
         comma = Tag.objects.create(name='com,ma')
         self.assertEqual(edit_string_for_tags([plain]), 'plain')
+        self.assertEqual(edit_string_for_tags([spaces]), '"spa ces"')
         self.assertEqual(edit_string_for_tags([plain, spaces]),
                          'plain, spa ces')
         self.assertEqual(edit_string_for_tags([plain, spaces, comma]),

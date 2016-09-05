@@ -1,7 +1,7 @@
 """
 Django-tagging
 """
-__version__ = '0.4.3'
+__version__ = '0.4.4'
 __license__ = 'BSD License'
 
 __author__ = 'Jonathan Buchanan'

@@ -121,7 +121,15 @@ def edit_string_for_tags(tags):
         glue = ', '
     else:
         glue = ' '
-    return glue.join(names)
+    result = glue.join(names)
+
+    # If we only had one name, and it had spaces,
+    # we need to enclose it in quotes.
+    # Otherwise, it's interpreted as two tags.
+    if len(names) == 1 and use_commas:
+        result = '"' + result + '"'
+
+    return result
 
 
 def get_queryset_and_model(queryset_or_model):
