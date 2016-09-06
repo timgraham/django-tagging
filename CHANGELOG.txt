@@ -2,6 +2,11 @@
 Django Tagging Changelog
 ========================
 
+Version 0.4.5, 6th September 2016:
+----------------------------------
+
+* Fix on the previous compatiblity fix.
+
 Version 0.4.4, 5th September 2016:
 ----------------------------------
 
