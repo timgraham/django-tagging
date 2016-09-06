@@ -104,7 +104,7 @@ class TagField(CharField):
         # when saving an instance, which check the keys present
         # in instance.__dict__.
         # The issue is introducted in Django 1.10
-        instance.__dict__['tags'] = True
+        instance.__dict__[self.attname] = tags
         setattr(instance, '_%s_cache' % self.attname, tags)
 
     def get_internal_type(self):

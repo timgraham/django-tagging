@@ -471,8 +471,8 @@ class TestModelTagField(TestCase):
         Note: this does not append if you only have one TagField
         in your model...
         """
-        f1 = FormMultipleFieldTest.objects.create(tags='one two')
-        self.assertEqual(f1.tags, 'one two')
+        f1 = FormMultipleFieldTest.objects.create(tagging_field='one two')
+        self.assertEqual(f1.tagging_field, 'one two')
         tags = Tag.objects.get_for_object(f1)
         self.assertEqual(len(tags), 2)
         test1_tag = get_tag('one')
@@ -480,16 +480,16 @@ class TestModelTagField(TestCase):
         self.assertTrue(test1_tag in tags)
         self.assertTrue(test2_tag in tags)
 
-        f1.tags = f1.tags + ' three'
+        f1.tagging_field = f1.tagging_field + ' three'
         f1.save()
-        self.assertEqual(f1.tags, 'one two three')
+        self.assertEqual(f1.tagging_field, 'one two three')
         tags = Tag.objects.get_for_object(f1)
         self.assertEqual(len(tags), 3)
         test3_tag = get_tag('three')
         self.assertTrue(test3_tag in tags)
 
         f1again = FormMultipleFieldTest.objects.get(pk=f1.pk)
-        self.assertEqual(f1again.tags, 'one two three')
+        self.assertEqual(f1again.tagging_field, 'one two three')
 
         tags = Tag.objects.get_for_object(f1again)
         self.assertEqual(len(tags), 3)
