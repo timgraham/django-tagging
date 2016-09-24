@@ -6,7 +6,7 @@ Django Tagging
 
 This is a generic tagging application for Django projects
 
-http://django-tagging.readthedocs.org/
+https://django-tagging.readthedocs.io/
 
 Note that this application requires Python 2.7 or later, and Django
 1.8 or later. You can obtain Python from http://www.python.org/ and
