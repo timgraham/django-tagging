@@ -1,11 +1,44 @@
+dist: xenial
 language: python
 python:
     - 2.7
     - 3.5
+services:
+    - mysql
+    - postgresql
 env:
     - DJANGO=1.11 DATABASE_ENGINE=sqlite
     - DJANGO=1.11 DATABASE_ENGINE=postgres
     - DJANGO=1.11 DATABASE_ENGINE=mysql
+    - DJANGO=2.0 DATABASE_ENGINE=sqlite
+    - DJANGO=2.0 DATABASE_ENGINE=postgres
+    - DJANGO=2.0 DATABASE_ENGINE=mysql
+    - DJANGO=2.1 DATABASE_ENGINE=sqlite
+    - DJANGO=2.1 DATABASE_ENGINE=postgres
+    - DJANGO=2.1 DATABASE_ENGINE=mysql
+    - DJANGO=2.2a1 DATABASE_ENGINE=sqlite
+    - DJANGO=2.2a1 DATABASE_ENGINE=postgres
+    - DJANGO=2.2a1 DATABASE_ENGINE=mysql
+matrix:
+    exclude:
+        - python: 2.7
+          env: DJANGO=2.0 DATABASE_ENGINE=sqlite
+        - python: 2.7
+          env: DJANGO=2.0 DATABASE_ENGINE=postgres
+        - python: 2.7
+          env: DJANGO=2.0 DATABASE_ENGINE=mysql
+        - python: 2.7
+          env: DJANGO=2.1 DATABASE_ENGINE=sqlite
+        - python: 2.7
+          env: DJANGO=2.1 DATABASE_ENGINE=postgres
+        - python: 2.7
+          env: DJANGO=2.1 DATABASE_ENGINE=mysql
+        - python: 2.7
+          env: DJANGO=2.2 DATABASE_ENGINE=sqlite
+        - python: 2.7
+          env: DJANGO=2.2 DATABASE_ENGINE=postgres
+        - python: 2.7
+          env: DJANGO=2.2 DATABASE_ENGINE=mysql
 install:
     - pip install -U setuptools
     - python bootstrap.py
