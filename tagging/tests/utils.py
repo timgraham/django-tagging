@@ -1,14 +1,8 @@
 """
 Tests utils for tagging.
 """
+from django.template import Origin
 from django.template.loaders.base import Loader
-try:
-    from django.template import Origin
-except ImportError:
-    class Origin(object):
-        def __init__(self, **kwargs):
-            for k, v in kwargs.items():
-                setattr(self, k, v)
 
 
 class VoidLoader(Loader):

@@ -435,12 +435,8 @@ class TaggedItemManager(models.Manager):
         GROUP BY %(model_pk)s
         ORDER BY %(count)s DESC
         %(limit_offset)s"""
-        try:
-            tagging_table = qn(self.model._meta.get_field(
-                'tag').remote_field.model._meta.db_table)
-        except AttributeError:  # Django < 1.9
-            tagging_table = qn(self.model._meta.get_field(
-                'tag').rel.to._meta.db_table)
+        tagging_table = qn(self.model._meta.get_field(
+            'tag').remote_field.model._meta.db_table)
         query = query % {
             'model_pk': '%s.%s' % (model_table, qn(model._meta.pk.column)),
             'count': qn('count'),

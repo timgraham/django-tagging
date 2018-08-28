@@ -3,15 +3,9 @@ python:
     - 2.7
     - 3.5
 env:
-    - DJANGO=1.8 DATABASE_ENGINE=sqlite
-    - DJANGO=1.8 DATABASE_ENGINE=postgres
-    - DJANGO=1.8 DATABASE_ENGINE=mysql
-    - DJANGO=1.9 DATABASE_ENGINE=sqlite
-    - DJANGO=1.9 DATABASE_ENGINE=postgres
-    - DJANGO=1.9 DATABASE_ENGINE=mysql
-    - DJANGO=1.10 DATABASE_ENGINE=sqlite
-    - DJANGO=1.10 DATABASE_ENGINE=postgres
-    - DJANGO=1.10 DATABASE_ENGINE=mysql
+    - DJANGO=1.11 DATABASE_ENGINE=sqlite
+    - DJANGO=1.11 DATABASE_ENGINE=postgres
+    - DJANGO=1.11 DATABASE_ENGINE=mysql
 install:
     - pip install -U setuptools
     - python bootstrap.py
@@ -23,7 +17,7 @@ install:
       fi"
     - sh -c "if [ '$DATABASE_ENGINE' = 'mysql' ];
       then
-        pip install mysqlclient;
+        pip install mysqlclient < 1.3.14;  # Django 1.11 doesn't support later versions.
         mysql -e 'create database tagging CHARACTER SET utf8 COLLATE utf8_general_ci;';
         mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root mysql;
       fi"
