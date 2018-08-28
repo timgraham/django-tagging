@@ -26,7 +26,8 @@ elif DATABASE_ENGINE == 'mysql':
             'ENGINE': 'django.db.backends.mysql',
             'NAME': 'zinnia',
             'USER': 'root',
-            'HOST': 'localhost'
+            'HOST': 'localhost',
+            'TEST': {'COLLATION': 'utf8_general_ci'},
         }
     }
 
